@@ -15,7 +15,7 @@ public class Project1Driver{
         //reader.wordExists(wordToSearch, lines);
         // reader.vertSearch(wordToSearch, lines);
         // System.out.println(lines[0][0]);
-        reader.diagSearchRight(wordToSearch, lines);
+        reader.diagSearchLeft(wordToSearch, lines);
         input.close();
     }
 }
@@ -93,39 +93,7 @@ class FileReader{
     }
 
     void diagSearchRight(String word, char[][] lines){
-        word = word.trim().toUpperCase();
-        int biggerNum;
-        if(this.rowNumber > this.colNumber) {
-        	biggerNum = this.rowNumber;
-        }
-        else {
-        	biggerNum = this.colNumber;
-        }
-        char[][] diag = new char[biggerNum*2][];
-        char [] diagLetters = new char[biggerNum*2];
-        
-        
-        // goes from left to right bottem left to top right
-        for (int y = this.colNumber; y >= 0; y--) {
-        	int i=0;
-            for (int x = this.rowNumber-1; x >= 0; x--) {
-            	i++;			
-            	char tempLetter = lines[x][y+i];
-                diagLetters[x] = tempLetter;
-                // System.out.println(colChars[i]);
-                
-            }
-            diag[y]=diagLetters;
-            
-            String diagString = new String(diag[y]).trim();
-            System.out.println(diagString);
-            String reversedDiagString = new StringBuilder(diagString).reverse().toString();
-            if (diagString.contains(word)) {
-            	System.out.println("Found, Diagnaly Up Right, Starting Letter in Column: " + (y+2));}
-            if (reversedDiagString.contains(word)) {
-            	System.out.println("Reversed | Found, Diagnaly Up Right, Ending Letter in Column: " + (y+2));}
-        }
-            
+
         /*Code below goes along the top row, left to right going diagonaly down right*/
         for (int y = 0; y < this.colNumber; y++) {
                 for (int x = 0; x < this.rowNumber; x++) {
@@ -145,5 +113,41 @@ class FileReader{
                 	System.out.println("Reversed | Found, Diagnaly Down Right, Ending Letter in Column: " + (y+1));}
             //System.out.println(diagLetters);
             }
-    }
+    }  
+        void diagSearchLeft(String word, char[][] lines) {
+            word = word.trim().toUpperCase();
+            int biggerNum;
+            if(this.rowNumber > this.colNumber) {
+            	biggerNum = this.rowNumber;
+            }
+            else {
+            	biggerNum = this.colNumber;
+            }
+            char[][] diag = new char[biggerNum*2][];
+            char [] diagLetters = new char[biggerNum*2];
+            
+            
+            // goes from left to right bottem left to top right
+            for (int y = this.colNumber; y >= 0; y--) {
+            	int i=0;
+                for (int x = this.rowNumber-1; x >= 0; x--) {
+                	i++;			
+                	char tempLetter = lines[x][y+i];
+                    diagLetters[x] = tempLetter;
+                    // System.out.println(colChars[i]);
+                    
+                }
+                diag[y]=diagLetters;
+                
+                String diagString = new String(diag[y]).trim();
+                System.out.println(diagString);
+                String reversedDiagString = new StringBuilder(diagString).reverse().toString();
+                if (diagString.contains(word)) {
+                	System.out.println("Found, Diagnaly Up Right, Starting Letter in Column: " + (y+2));}
+                if (reversedDiagString.contains(word)) {
+                	System.out.println("Reversed | Found, Diagnaly Up Right, Ending Letter in Column: " + (y+2));}
+            }
+                
+        }
+    
 }
