@@ -2,7 +2,6 @@ import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Project3Driver {
@@ -40,18 +39,19 @@ public class Project3Driver {
 		while(true) {
 			String input = scan.nextLine();
 			input = input.toLowerCase();
-			System.out.println(input);
 			
-			if(input == "write") {
+			if(input.equals("read")) {
 				Read(fileName);
-				System.out.println("r");
+				//System.out.println("r");	*Debug*
 			}
-			else if(input == "read"){
+			else if(input.equals("write")){
 				Write(fileName);
-				System.out.println("w");
+				//System.out.println("w");	*Debug*
 			}
-			else if(input == "q")
+			else if(input.equals("q")) {
+				System.out.println("Exiting Program");
 				System.exit(0);
+			}
 			else
 				System.out.println("Sorry I didnt quite catch that please put 'Read' or 'Write' or if you would like to quit 'q'");
 			
