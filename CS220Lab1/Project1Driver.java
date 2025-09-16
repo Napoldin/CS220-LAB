@@ -19,6 +19,9 @@ public class Project1Driver {
 
 /**
  * Our main class that we use to search through our file.
+ *
+ * @author Aiden & Micheal
+ * @version 1.0
  */
 class WordSearcher {
 
