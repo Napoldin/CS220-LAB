@@ -40,7 +40,7 @@ class WordSearcher {
      * @throws FileNotFoundException if the input file is not found.
      */
 	void createReader() throws FileNotFoundException {
-		File fileDir = new File("input");
+		File fileDir = new File("input.txt");
 		this.fileScan = new Scanner(fileDir);
 		// updates the class to know how many lines there are
 		while (this.fileScan.hasNextLine()) {
@@ -135,15 +135,17 @@ class WordSearcher {
 	 * It also reverses the string to check if the word is present but backwards
 	 *
 	 * @param word  String the user inputs that we use to search
-	 * @param lines The List Char[][] That holds the Chars of Characters for our
+	 * @param lines The Array Char[][] That holds the Chars of Characters for our
 	 *              grid
 	 */
 	void diagSearchRight(String word, char[][] lines) {
 		word = word.trim().toUpperCase();
-		// Start from top row
+
+		// from top row
 		for (int startCol = 0; startCol < colNumber; startCol++) {
-			int y = 0, l = 0;
+			int y = 0;
 			int x = startCol;
+			int l = 0;
 			char[] diagChars = new char[rowNumber];
 			while (y < rowNumber && x < colNumber) {
 				diagChars[l++] = lines[y][x];
@@ -151,12 +153,20 @@ class WordSearcher {
 				x++;
 			}
 			String diag = new String(diagChars, 0, l).toUpperCase();
+
 			String reversed = "";
-			for (int i = diag.length() - 1; i >= 0; i--) reversed += diag.charAt(i);
-			if (diag.contains(word)) {System.out.println("Found Diagonally Down-Right, starting at Row 1, Col " + (startCol + 1));}
-			if (reversed.contains(word)) {System.out.println("Found Reversed Diagonally Down-Right, starting at Row 1, Col " + (startCol + 1));}
+			for (int i = diag.length() - 1; i >= 0; i--)
+				reversed += diag.charAt(i);
+
+			if (diag.contains(word)) {
+				System.out.println("Found Diagonally Down-Right, in Row 1, Col " + (startCol + 1));
+			}
+			if (reversed.contains(word)) {
+				System.out.println("Found Reversed Diagonally Down-Right, in Row 1, Col " + (startCol + 1));
+			}
 		}
-		// Start from first column (excluding row 0)
+
+		// from first column 
 		for (int startRow = 1; startRow < rowNumber; startRow++) {
 			int y = startRow, x = 0, l = 0;
 			char[] diagChars = new char[colNumber];
@@ -167,8 +177,13 @@ class WordSearcher {
 			}
 			String diagString = new String(diagChars, 0, l).toUpperCase();
 			String reversedDiagString = new StringBuilder(diagString).reverse().toString().toUpperCase();
-			if (diagString.contains(word)) {System.out.println("Found Diagonally Down-Right, starting at Row " + (startRow + 1) + ", Col 1");}
-			if (reversedDiagString.contains(word)) {System.out.println("Found Reversed Diagonally Down-Right, starting at Row " + (startRow + 1) + ", Col 1");}
+			if (diagString.contains(word)) {
+				System.out.println("Found Diagonally Down-Right, in Row " + (startRow + 1) + ", Col 1");
+			}
+			if (reversedDiagString.contains(word)) {
+				System.out
+						.println("Found Reversed Diagonally Down-Right, in Row " + (startRow + 1) + ", Col 1");
+			}
 		}
 	}
 
@@ -178,15 +193,17 @@ class WordSearcher {
 	 * It also reverses the string to check if the word is present but backwards
 	 *
 	 * @param word  String the user inputs that we use to search
-	 * @param lines The List Char[][] That holds the Chars of Characters for our
+	 * @param lines The Array Char[][] That holds the Chars of Characters for our
 	 *              grid
 	 */
 	void diagSearchLeft(String word, char[][] lines) {
 		word = word.trim().toUpperCase();
-		// Start from top row
+
+		//from first row
 		for (int startCol = 0; startCol < colNumber; startCol++) {
-			int y = 0, l = 0;
+			int y = 0;
 			int x = startCol;
+			int l = 0;
 			char[] diagChars = new char[rowNumber];
 			while (y < rowNumber && x >= 0) {
 				diagChars[l++] = lines[y][x];
@@ -194,11 +211,19 @@ class WordSearcher {
 				x--;
 			}
 			String diag = new String(diagChars, 0, l).toUpperCase();
+
 			String reversed = "";
-			for (int i = diag.length() - 1; i >= 0; i--) reversed += diag.charAt(i);
-			if (diag.contains(word)) {System.out.println("Found Diagonally Down-Left, starting at Row 1, Col " + (startCol + 1));}
-			if (reversed.contains(word)) {System.out.println("Found Reversed Diagonally Down-Left, starting at Row 1, Col " + (startCol + 1));}
+			for (int i = diag.length() - 1; i >= 0; i--)
+				reversed += diag.charAt(i);
+
+			if (diag.contains(word)) {
+				System.out.println("Found Diagonally Down-Left, in Row 1, Col " + (startCol + 1));
+			}
+			if (reversed.contains(word)) {
+				System.out.println("Found Reversed Diagonally Down-Left, in Row 1, Col " + (startCol + 1));
+			}
 		}
+		//from first column
 		for (int startRow = 1; startRow < rowNumber; startRow++) {
 			int y = startRow, x = colNumber - 1, l = 0;
 			char[] diagChars = new char[colNumber];
@@ -209,8 +234,15 @@ class WordSearcher {
 			}
 			String diagString = new String(diagChars, 0, l).toUpperCase();
 			String reversedDiagString = new StringBuilder(diagString).reverse().toString().toUpperCase();
-			if (diagString.contains(word)) {System.out.println("Found Diagonally Down-Left, starting at Row " + (startRow + 1) + ", Col " + colNumber);}
-			if (reversedDiagString.contains(word)) {System.out.println("Found Reversed Diagonally Down-Left, starting at Row " + (startRow + 1) + ", Col " + colNumber);}
+
+			if (diagString.contains(word)) {
+				System.out.println(
+						"Found Diagonally Down-Left, in Row " + (startRow + 1) + ", Col " + colNumber);
+			}
+			if (reversedDiagString.contains(word)) {
+				System.out.println("Found Reversed Diagonally Down-Left, in Row " + (startRow + 1) + ", Col "
+						+ colNumber);
+			}
 		}
 	}
 
