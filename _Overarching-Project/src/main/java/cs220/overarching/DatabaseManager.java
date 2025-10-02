@@ -91,6 +91,12 @@ public class DatabaseManager {
     }
 
     public void insertAllTop500(String format, List<Player> players, Connection conn) throws SQLException {
+        String deleteCmd = "DELETE FROM top500 WHERE format = ?";
+        try (PreparedStatement psDelete = conn.prepareStatement(deleteCmd)) {
+            psDelete.setString(1, format);
+            psDelete.executeUpdate();
+        }
+
         String insert = "INSERT INTO top500(format, rank, name, elo, gxe, glickoRating, glickoDev, coil) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE " +
@@ -117,6 +123,7 @@ public class DatabaseManager {
 
     public void insertTop500(String format, Player player){
         try (Connection conn = connectDB()){
+            conn.setAutoCommit(false);
             String insert = "INSERT INTO top500(format, rank, name, elo, gxe, glickoRating, glickoDev, coil) VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE " +
                 "elo = VALUES(elo), " +
@@ -135,6 +142,7 @@ public class DatabaseManager {
             ps.setString(8, player.getCoil());
             ps.addBatch();
             ps.executeBatch();
+            conn.commit();
         } catch (SQLException e) {
             System.out.println("Failed to insert top500, Failed at format: " + format);
             e.printStackTrace();

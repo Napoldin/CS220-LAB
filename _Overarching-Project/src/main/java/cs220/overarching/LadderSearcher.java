@@ -87,7 +87,7 @@ public class LadderSearcher {
                 conn.setAutoCommit(false);
                 try {
                     for (String format : formats) {
-                        LoadFormatData(format, conn);
+                        loadFormatData(format, conn);
                     }
                     conn.commit();
                     System.out.println("Finished loading Ladder");
@@ -114,7 +114,7 @@ public class LadderSearcher {
      * @throws IOException In case of The parsing of the showdown website goes wrong
      * @throws SQLException In case we can't connect to our database or something goes wrong
      */
-    private void LoadFormatData(String format, Connection conn) throws IOException, SQLException {
+    public void loadFormatData(String format, Connection conn) throws IOException, SQLException {
         String url = "https://play.pokemonshowdown.com/ladder.php?format=" + format + "&server=showdown&output=html&prefix=";
         Document doc = Jsoup.connect(url).get();
         Elements tableRows = doc.getElementsByTag("tr");
@@ -127,6 +127,24 @@ public class LadderSearcher {
             players.add(player);
         }
         db.insertAllTop500(format, players, conn);
+    }
+
+    public void loadFormatData(String format) throws IOException, SQLException {
+        Connection conn = db.connectDB();
+        conn.setAutoCommit(false);
+        String url = "https://play.pokemonshowdown.com/ladder.php?format=" + format + "&server=showdown&output=html&prefix=";
+        Document doc = Jsoup.connect(url).get();
+        Elements tableRows = doc.getElementsByTag("tr");
+        List<Player> players = new ArrayList<>();
+        for (int j = 1; j < tableRows.size(); j++) {
+            Element user = tableRows.get(j);
+            String userData = user.text();
+            String[] userParts = userData.trim().split("\\s+");
+            Player player = createPlayer(userParts);
+            players.add(player);
+        }
+        db.insertAllTop500(format, players, conn);
+        conn.commit();
     }
 
     /**

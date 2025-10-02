@@ -9,7 +9,8 @@ public class Main {
     // only load new ladder when asked or when no ladder data is found on startup, otherwise use db data
     if (ladder.getAllTop500() == null) ladder.loadLadder();
 
-
+    Gui gui = new Gui();
+    gui.show();
     }
 }
 
