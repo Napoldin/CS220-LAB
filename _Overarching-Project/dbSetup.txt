@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS top500 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    format VARCHAR(50) NOT NULL,
+    rank INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    elo INT NOT NULL,
+    gxe DOUBLE NOT NULL,
+    glickoRating INT NOT NULL,
+    glickoDev INT NOT NULL,
+    coil VARCHAR(50),
+    UNIQUE KEY formatRank (format, rank),
+    UNIQUE KEY formatName (format, name)
+);
+
+CREATE TABLE IF NOT EXISTS players (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    format VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    elo INT NOT NULL,
+    gxe DOUBLE NOT NULL,
+    glickoRating INT NOT NULL,
+    glickoDev INT NOT NULL,
+    UNIQUE KEY formatName (format, name)
+);
+
+CREATE TABLE IF NOT EXISTS playerHistory (
+    playerId INT NOT NULL,
+    format VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    elo INT NOT NULL,
+    gxe DOUBLE,
+    glickoRating INT,
+    glickoDev INT,
+    coil VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (playerId, elo),
+    FOREIGN KEY (playerId) REFERENCES players(id) ON DELETE CASCADE
+);
+
+drop table playerHistory;
+
+DELETE From players;
+TRUNCATE TABLE playerHistory;
+TRUNCATE TABLE top500;
+
+insert into top500(format, rank, name, elo, gxe, glickoRating, glickoDev, coil) VALUES
+
+select *
+from top500;
+
+select *
+from players;
+
+select elo, timestamp from playerHistory where format = 'gen9randombattle' and name = 'unovya';
