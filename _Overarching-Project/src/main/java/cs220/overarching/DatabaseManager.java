@@ -258,16 +258,24 @@ public class DatabaseManager {
         return player;
     }
 
-    protected List<Integer> getPlayerFormatHistory(String format, String name){
-        List<Integer> history = new ArrayList<>();
-        String query = "SELECT elo FROM playerHistory WHERE format = ? AND name = ? ORDER BY timestamp DESC";
+    protected List<Player> getPlayerFormatHistory(String format, String name){ // Change this
+        List<Player> history = new ArrayList<>();
+        String query = "SELECT name, elo, gxe, glickoRating, glickoDev, timestamp  FROM playerHistory WHERE format = ? AND name = ? ORDER BY timestamp DESC";
         try (Connection conn = connectDB()) {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, format);
             ps.setString(2, name);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                history.add(rs.getInt("elo"));
+                Player player = new Player(
+                        rs.getString("name"),
+                        rs.getInt("elo"),
+                        rs.getDouble("gxe"),
+                        rs.getInt("glickoRating"),
+                        rs.getInt("glickoDev"),
+                        rs.getString("Timestamp")
+                );
+                history.add(player);
             }
         } catch (SQLException e) {
             System.out.println("Failed to get player data");

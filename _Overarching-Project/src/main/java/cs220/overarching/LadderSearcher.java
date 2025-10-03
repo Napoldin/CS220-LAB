@@ -246,7 +246,9 @@ public class LadderSearcher {
      * @param name name of the player we want to get the history of from our DB
      * @return A list of all the previous Elo's the player has had
      */
-    public List<Integer> getPlayerFormatHistory(String format, String name){return db.getPlayerFormatHistory(format, name);}
+    public List<Player> getPlayerFormatHistory(String format, String name){
+        return db.getPlayerFormatHistory(format, name);
+    }
 
     //Operations
 
@@ -262,12 +264,12 @@ public class LadderSearcher {
     public int getEloHistoryDiff(String format, String name, int depth) throws IOException {
         int difference = 0;
         Player newPlayer = searchPlayer(name).get(format);
-        List<Integer> oldPlayer = getPlayerFormatHistory(format, name);
+        List<Player> oldPlayer = getPlayerFormatHistory(format, name);
         if (depth >= oldPlayer.size()){
-            difference = newPlayer.getElo()-oldPlayer.getLast(); // reset to last if depth is too deep
+            difference = newPlayer.getElo()-oldPlayer.getLast().getElo(); // reset to last if depth is too deep
             System.out.println("Entered Depth is too large, defaulting to last elo in history. Highest depth allowed: " + (oldPlayer.size()-1));
         }
-        else difference = newPlayer.getElo()-oldPlayer.get(-1*oldPlayer.size()+(oldPlayer.size()+depth));
+        else difference = newPlayer.getElo()-oldPlayer.get(-1*oldPlayer.size()+(oldPlayer.size()+depth)).getElo();
         return difference; // to reverse is just: (-1*diff+elo)
     }
 

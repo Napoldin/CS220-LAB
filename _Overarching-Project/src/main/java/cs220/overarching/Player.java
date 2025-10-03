@@ -9,6 +9,7 @@ public class Player {
     final private int glickoRating;
     final private int glickoDeviation;
     private String coil = "--";
+    private String timestamp = null;
 
     public Player(int rank, String name, int elo, double gxe, int glickoRating, int glickoDeviation, String coil) {
         this.rank = rank;
@@ -28,6 +29,15 @@ public class Player {
         this.glickoDeviation = glickoDeviation;
     }
 
+    public Player(String name, int elo, double gxe, int glickoRating, int glickoDeviation, String timestamp) {
+        this.name = name;
+        this.elo = elo;
+        this.gxe = gxe;
+        this.glickoRating = glickoRating;
+        this.glickoDeviation = glickoDeviation;
+        this.timestamp = timestamp;
+    }
+
     public int getRank() { return rank; }
     public String getName() { return name; }
     public int getElo() { return elo; }
@@ -36,6 +46,7 @@ public class Player {
     public int getGlickoDeviation() { return glickoDeviation; }
     public String getGlicko(){return glickoRating +"±"+ glickoDeviation;}
     public String getCoil() { return coil; }
+    public String getTimestamp() { return timestamp; }
 
 
     public String toString() {

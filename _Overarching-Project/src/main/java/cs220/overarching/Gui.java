@@ -24,9 +24,17 @@ public class Gui {
     private void switchPage(String name){
         layout.show(mainPanel, name);
     }
+    private void removeDupes(JPanel playerPanel, String panelName) {
+        for (Component comp : mainPanel.getComponents()) {
+            if (panelName.equals(comp.getName())){
+                mainPanel.remove(comp);
+                break;
+            }
+        }
+    }
 
 
-    // Constructor
+    // On run Startup
     Gui() throws SQLException {
         ladder = new LadderSearcher();
 
@@ -48,6 +56,7 @@ public class Gui {
         mainPanel.add(reloadFormatPage(), "reloadFormat");
         mainPanel.add(searchPlayersPage(), "searchPlayers");
         // Found players is made within search players
+        mainPanel.add(playerHistorySearchPage(), "playerHistorySearch");
 
 
 
@@ -64,10 +73,10 @@ public class Gui {
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(welcomeLabel, BorderLayout.CENTER);
 
-        JButton button = new JButton("Enter!");
-        button.setPreferredSize(new Dimension(100,100));
-        button.addActionListener(e -> {switchPage("hub1");});
-        panel.add(button, BorderLayout.SOUTH);
+        JButton enterButton = new JButton("Enter!");
+        enterButton.setPreferredSize(new Dimension(100,100));
+        enterButton.addActionListener(e -> {switchPage("hub1");});
+        panel.add(enterButton, BorderLayout.SOUTH);
 
 
         return panel;
@@ -76,10 +85,10 @@ public class Gui {
     private JPanel hubPanel1(){
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel title = new JLabel("Hub Page 1");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(title, BorderLayout.NORTH);
+        JLabel hubTitle = new JLabel("Hub Page 1");
+        hubTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        hubTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(hubTitle, BorderLayout.NORTH);
 
         JPanel optionGrid = new JPanel(new GridLayout(2,2, 20, 20));
         optionGrid.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -91,6 +100,7 @@ public class Gui {
         JButton searchPlayersButton = new JButton("Search Players");
         searchPlayersButton.addActionListener(e -> {switchPage("searchPlayers");});
         JButton playerHistoryButton = new JButton("Check Player History");
+        playerHistoryButton.addActionListener(e -> {switchPage("playerHistorySearch");});
 
         Font buttonFont = new Font("Arial", Font.BOLD, 14);
         Dimension buttonSize = new Dimension(200, 80);
@@ -113,14 +123,14 @@ public class Gui {
     private JPanel hubPanel2(){
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel title = new JLabel("Hub Page 2");
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        panel.add(title, BorderLayout.NORTH);
+        JLabel hub2Title = new JLabel("Hub Page 2");
+        hub2Title.setHorizontalAlignment(SwingConstants.CENTER);
+        hub2Title.setFont(new Font("Arial", Font.BOLD, 20));
+        panel.add(hub2Title, BorderLayout.NORTH);
 
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setPreferredSize(new Dimension(120, 40));
+        backButton.setPreferredSize(new Dimension(200, 50));
         backButton.addActionListener(e -> switchPage("hub1"));
         panel.add(backButton, BorderLayout.SOUTH);
 
@@ -131,10 +141,10 @@ public class Gui {
     private JPanel chooseTop500FormatPage(){
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel title = new JLabel("Please Pick a Format");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(title, BorderLayout.NORTH);
+        JLabel formatChooseTitle = new JLabel("Please Pick a Format");
+        formatChooseTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        formatChooseTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(formatChooseTitle, BorderLayout.NORTH);
 
         JPanel formatGrid = new JPanel(new GridLayout(10,10, 10, 10));
         formatGrid.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -146,7 +156,9 @@ public class Gui {
 
         JButton backButton = new JButton("Back to Hub");
         backButton.addActionListener(e -> {switchPage("hub1");});
+        backButton.setPreferredSize(new Dimension(200, 50));
         panel.add(backButton, BorderLayout.SOUTH);
+
         panel.add(formatGrid, BorderLayout.CENTER);
 
         return panel;
@@ -157,13 +169,13 @@ public class Gui {
 
         JButton backButton = new JButton("Back to Formats");
         backButton.addActionListener(e -> {switchPage("top500ChooseFormat");});
-        backButton.setPreferredSize(new Dimension(120, 35));
+        backButton.setPreferredSize(new Dimension(200, 50));
         panel.add(backButton, BorderLayout.SOUTH);
 
-        JLabel title = new JLabel("Top 500 - " + format);
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(title, BorderLayout.NORTH);
+        JLabel top500Title = new JLabel("Top 500 - " + format);
+        top500Title.setFont(new Font("Arial", Font.BOLD, 20));
+        top500Title.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(top500Title, BorderLayout.NORTH);
 
         List<Player> playerData = ladder.getFormatTop500(format);
         String[] columns = {"Rank", "Name", "Elo", "Gxe","Glicko Rating", "Coil"};
@@ -188,10 +200,10 @@ public class Gui {
     private JPanel reloadFormatPage(){
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel title = new JLabel("Choose a Format to Reload");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(title, BorderLayout.NORTH);
+        JLabel reloadPageTitle = new JLabel("Choose a Format to Reload");
+        reloadPageTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        reloadPageTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(reloadPageTitle, BorderLayout.NORTH);
 
         JPanel formatsGrid = new JPanel(new GridLayout(10,10, 20, 20));
         formatsGrid.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -221,6 +233,7 @@ public class Gui {
 
         JButton backButton = new JButton("Back to Hub");
         backButton.addActionListener(e -> {switchPage("hub1");});
+        backButton.setPreferredSize(new Dimension(200, 50));
         panel.add(backButton, BorderLayout.SOUTH);
 
         return panel;
@@ -229,11 +242,11 @@ public class Gui {
     private JPanel searchPlayersPage(){
         JPanel panel = new JPanel(new BorderLayout());
 
-        JLabel title = new JLabel("Please enter the name of the player you want to search");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-        panel.add(title, BorderLayout.NORTH);
+        JLabel playerSearchTitle = new JLabel("Please enter the name of the player you want to search");
+        playerSearchTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        playerSearchTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        playerSearchTitle.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        panel.add(playerSearchTitle, BorderLayout.NORTH);
 
         JPanel inputPanel = new JPanel(new FlowLayout());
         JTextField nameInput = new JTextField();
@@ -251,12 +264,7 @@ public class Gui {
                 }
                 JPanel playerPanel = playerFoundPage(player);
                 String panelName = "player-" + name;
-                for (Component comp : mainPanel.getComponents()) {
-                    if (panelName.equals(comp.getName())){
-                        mainPanel.remove(comp);
-                        break;
-                    }
-                }
+                removeDupes(playerPanel, panelName);
                 playerPanel.setName(panelName);
                 mainPanel.add(playerPanel, panelName);
                 switchPage(panelName);
@@ -269,6 +277,7 @@ public class Gui {
 
         JButton backButton = new JButton("Back to Hub");
         backButton.addActionListener(e -> {switchPage("hub1");});
+        backButton.setPreferredSize(new Dimension(200, 50));
         panel.add(backButton, BorderLayout.SOUTH);
 
         return panel;
@@ -279,10 +288,10 @@ public class Gui {
 
         List<Map.Entry<String, Player>> playerEntries = new ArrayList<>(playerMap.entrySet());
 
-        JLabel title = new JLabel(playerEntries.getFirst().getValue().getName());
-        title.setFont(new Font("Arial", Font.BOLD, 20));
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(title, BorderLayout.NORTH);
+        JLabel playerPageTitle = new JLabel(playerEntries.getFirst().getValue().getName());
+        playerPageTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        playerPageTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(playerPageTitle, BorderLayout.NORTH);
 
         String[] columns = {"Format", "Elo", "Gxe", "Glicko"};
         Object[][] tableData = new Object[playerEntries.size()][columns.length];
@@ -303,6 +312,126 @@ public class Gui {
 
         JButton backButton = new JButton("Back to Player Search");
         backButton.addActionListener(e -> {switchPage("searchPlayers");});
+        backButton.setPreferredSize(new Dimension(200, 50));
+        panel.add(backButton, BorderLayout.SOUTH);
+
+        return panel;
+    }
+
+    private JPanel playerHistorySearchPage(){
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JLabel playerPageTitle = new JLabel("Please enter the name of the player you want to see the history of");
+        playerPageTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        playerPageTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        playerPageTitle.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        panel.add(playerPageTitle, BorderLayout.NORTH);
+
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        JTextField nameInput = new JTextField();
+        nameInput.setPreferredSize(new Dimension(200, 30));
+        inputPanel.add(nameInput);
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(e -> {
+            String name = nameInput.getText().toLowerCase().trim();
+            if (name.isEmpty()) return;
+            Map<String, Player> player = ladder.getSavedPlayer(name);
+
+            if (player == null || player.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Player not found! Creating History...");
+                try {
+                    ladder.searchPlayer(name);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            player = ladder.getSavedPlayer(name);
+            JPanel playerPanel = choosePlayerFormatsPage(player);
+            String panelName = "player-" + name + "-Formats";
+            removeDupes(playerPanel, panelName);
+            playerPanel.setName(panelName);
+            mainPanel.add(playerPanel, panelName);
+            switchPage(panelName);
+        });
+        inputPanel.add(searchButton);
+        panel.add(inputPanel, BorderLayout.CENTER);
+
+        JButton backButton = new JButton("Back to Hub");
+        backButton.addActionListener(e -> {switchPage("hub1");});
+        backButton.setPreferredSize(new Dimension(200, 50));
+        panel.add(backButton, BorderLayout.SOUTH);
+
+        return panel;
+    }
+
+    private JPanel choosePlayerFormatsPage(Map<String, Player> playerMap){
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JLabel playerPageTitle = new JLabel("Please Choose a format to view the history of!");
+        playerPageTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        playerPageTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        playerPageTitle.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        panel.add(playerPageTitle, BorderLayout.NORTH);
+
+        int formatAmount = playerMap.size();
+
+        JPanel formatsGrid = new JPanel(new GridLayout(formatAmount/2,formatAmount/2, 20, 20));
+        formatsGrid.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
+        for (String format : playerMap.keySet()){
+            JButton btn = new JButton(format);
+            btn.addActionListener(e -> {
+                Player player = playerMap.get(format);
+                List<Player> playerHistory = ladder.getPlayerFormatHistory(format, player.getName());
+                JPanel playerPanel = playerHistoryPage(playerHistory);
+                String panelName = "player-" + player + " History";
+                removeDupes(playerPanel, panelName);
+                playerPanel.setName(panelName);
+                mainPanel.add(playerPanel, panelName);
+                switchPage(panelName);
+            });
+            formatsGrid.add(btn);
+        }
+        panel.add(formatsGrid,  BorderLayout.CENTER);
+
+        JButton backButton = new JButton("Back to Player History Search");
+        backButton.addActionListener(e -> {switchPage("playerHistorySearch");});
+        backButton.setPreferredSize(new Dimension(200, 50));
+        panel.add(backButton, BorderLayout.SOUTH);
+
+        return panel;
+    }
+
+    private JPanel playerHistoryPage(List<Player> playerHistory){
+        JPanel panel = new JPanel(new BorderLayout());
+
+        String playerName = playerHistory.getFirst().getName();
+
+        JLabel playerPageTitle = new JLabel("Player History of " + playerName);
+        playerPageTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        playerPageTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        playerPageTitle.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        panel.add(playerPageTitle, BorderLayout.NORTH);
+
+        String[] columns = {"Elo", "Gxe", "Glicko", "TimeStamp"};
+        Object[][] tableData = new Object[playerHistory.size()][columns.length];
+        for (int i = 0; i < playerHistory.size(); i++){
+            Player player = playerHistory.get(i);
+            tableData[i][0] = player.getElo();
+            tableData[i][1] = player.getGxe()+"%";
+            tableData[i][2] = player.getGlicko();
+            tableData[i][3] = player.getTimestamp();
+        }
+
+        JTable playersTable = new JTable(tableData, columns);
+        playersTable.setRowHeight(22);
+        JScrollPane playersScroll = new JScrollPane(playersTable);
+        playersScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panel.add(playersScroll, BorderLayout.CENTER);
+
+        JButton backButton = new JButton("Back to Format Select");
+        backButton.addActionListener(e -> {switchPage("player-" + playerName + "-Formats");});
+        backButton.setPreferredSize(new Dimension(200, 50));
         panel.add(backButton, BorderLayout.SOUTH);
 
         return panel;
