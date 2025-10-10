@@ -16,7 +16,7 @@ import java.util.Random;
  * @author Lewis, Depasquale, and Chase
  * @version 4.0
  *
- * @edited by Michael, Aiden,Brian 540-505-7572
+ * @edited by Michael, Aiden,Brian
  * Added a clickable button that will count how many times it has been clicked. As well as made the status for insertion
  * and quick sort seperate so they each have their own.
  */
@@ -233,4 +233,5 @@ public class View implements ActionListener, PropertyChangeListener
 			}
 		}
 	}
+
 }
