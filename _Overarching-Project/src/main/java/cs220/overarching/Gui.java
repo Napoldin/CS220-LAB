@@ -229,6 +229,7 @@ public class Gui {
                 throw new RuntimeException(er);
             }
         });
+        formatsGrid.add(reloadAllFormats);
         panel.add(formatsGrid, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Hub");
@@ -288,7 +289,7 @@ public class Gui {
 
         List<Map.Entry<String, Player>> playerEntries = new ArrayList<>(playerMap.entrySet());
 
-        JLabel playerPageTitle = new JLabel(playerEntries.getFirst().getValue().getName());
+        JLabel playerPageTitle = new JLabel(playerEntries.get(playerEntries.size()-1).getValue().getName());
         playerPageTitle.setFont(new Font("Arial", Font.BOLD, 20));
         playerPageTitle.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(playerPageTitle, BorderLayout.NORTH);
@@ -405,7 +406,7 @@ public class Gui {
     private JPanel playerHistoryPage(List<Player> playerHistory){
         JPanel panel = new JPanel(new BorderLayout());
 
-        String playerName = playerHistory.getFirst().getName();
+        String playerName = playerHistory.get(playerHistory.size()-1).getName();
 
         JLabel playerPageTitle = new JLabel("Player History of " + playerName);
         playerPageTitle.setFont(new Font("Arial", Font.BOLD, 20));

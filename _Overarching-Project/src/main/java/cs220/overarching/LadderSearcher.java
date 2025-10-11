@@ -125,8 +125,11 @@ public class LadderSearcher {
             String[] userParts = userData.trim().split("\\s+");
             Player player = createPlayer(userParts);
             players.add(player);
+
         }
         db.insertAllTop500(format, players, conn);
+
+        System.out.println(format);
     }
 
     public void loadFormatData(String format) throws IOException, SQLException {
@@ -266,7 +269,7 @@ public class LadderSearcher {
         Player newPlayer = searchPlayer(name).get(format);
         List<Player> oldPlayer = getPlayerFormatHistory(format, name);
         if (depth >= oldPlayer.size()){
-            difference = newPlayer.getElo()-oldPlayer.getLast().getElo(); // reset to last if depth is too deep
+            difference = newPlayer.getElo()-oldPlayer.get(0).getElo(); // reset to last if depth is too deep
             System.out.println("Entered Depth is too large, defaulting to last elo in history. Highest depth allowed: " + (oldPlayer.size()-1));
         }
         else difference = newPlayer.getElo()-oldPlayer.get(-1*oldPlayer.size()+(oldPlayer.size()+depth)).getElo();
