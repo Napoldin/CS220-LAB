@@ -5,7 +5,7 @@
  * @version 4.0
  *
  */
-public class Driver {
+public class Project3Driver {
 	
 	
 	/**
@@ -14,6 +14,6 @@ public class Driver {
 	 */
 	public static void main(String[] args)
 	{
-		View view = new View();
+		Project4View view = new Project4View();
 	}
 }

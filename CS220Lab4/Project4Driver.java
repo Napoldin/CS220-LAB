@@ -8,8 +8,8 @@
  * @version 1.0
  */
 
-public class Driver {
+public class Project4Driver {
 	public static void main(String args[]){
-		View ss = new View();
+		Project4View ss = new Project4View();
 	}
 }

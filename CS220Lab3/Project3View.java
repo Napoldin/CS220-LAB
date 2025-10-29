@@ -3,7 +3,6 @@ import java.beans.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.foreign.PaddingLayout;
 import java.util.Random;
 
 /**
@@ -20,8 +19,7 @@ import java.util.Random;
  * Added a clickable button that will count how many times it has been clicked. As well as made the status for insertion
  * and quick sort seperate so they each have their own.
  */
-public class View implements ActionListener, PropertyChangeListener
-{
+public class Project3View implements ActionListener, PropertyChangeListener {
 	private JFrame frame = new JFrame("Thread Sorts Demo");
 	private JPanel pane = new JPanel(new GridLayout(6,1));
 
@@ -65,7 +63,7 @@ public class View implements ActionListener, PropertyChangeListener
 	/**
 	 * Constructor and Button Logic
 	 */
-	public View()
+	public Project3View()
 	{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);

@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Project1Driver {
     /**
-     * @throws FileNotFoundException If input file is not found
+     * @throws FileNotFoundException If input.txt file is not found
      */
 	public static void main(String[] args) throws FileNotFoundException {
 		WordSearcher reader = new WordSearcher();
@@ -37,7 +37,7 @@ class WordSearcher {
      * Populates the file scan variable, defines the number of rows, then reopens the
      * scanner so we can search again.
      *
-     * @throws FileNotFoundException if the input file is not found.
+     * @throws FileNotFoundException if the input.txt file is not found.
      */
 	void createReader() throws FileNotFoundException {
 		File fileDir = new File("input.txt");

@@ -154,7 +154,7 @@ public class DatabaseManager {
     protected Map<String, List<Player>> getAllTop500() throws SQLException {
         String[] formats = LadderSearcher.formats;
         Map<String, List<Player>> players = new HashMap<>();
-        Boolean foundFormat = false;
+        boolean foundFormat = false;
         for (String format : formats) {
             String query = "SELECT * FROM top500 WHERE format = ? ORDER BY rank LIMIT 500";
             try (Connection conn = connectDB()){
