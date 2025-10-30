@@ -4,14 +4,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-/*
- * Graphical User Interface for the SpaceShip example
- * creates and loads the frame using the Ship class
+/**
+ * Graphical User Interface for Lab Assignment 4: Swing Timer: Bouncing Ball Animation with Shrinking Functionality
+ * creates and loads the frame using the ball class
  *
- * @author Chase
- * @version 1.0
+ *  @author Brian Mann, Aiden, Michael
+ *  @version 1.0
  */
-
 
 public class Project4View {
 
@@ -39,6 +38,11 @@ public class Project4View {
 
     int xVelocity = 2;
     int yVelocity = 3;
+
+    /**
+     * Constructor for the View class loads and displays the frame,
+     * and it's components.
+     */
 
     public Project4View(){
         frame = new JFrame();
@@ -85,23 +89,48 @@ public class Project4View {
         drawTimer = new Timer(10, new drawTimerListener());
     }
 
+    /**
+     * This is a private helper method to determine if the ball needs to reverse course in the
+     * X dimension
+     *
+     * @return boolean representing whether the ball needs to bounce
+     */
 
-    // Helpers
     private boolean bounceX(){
         if (ball.getX() <= 0) return true;
         else return (ball.getX() + ball.getWidth()) >= ballArea.getWidth();
     }
+
+    /**
+     * This is a private helper method to determine if the ball needs to reverse course in the
+     * Y dimension
+     *
+     * @return boolean representing whether the ball needs to bounce
+     */
+
     private boolean bounceY(){
         if (ball.getY() <= 0) return true;
         else return ((ball.getY() + ball.getHeight() + 20) >= ballArea.getHeight());
     }
 
-
-
-
-    // Handlers
+    /**
+     * Private inner class that handles the action event for the Start button.
+     */
 
     class StartButtonHandler implements ActionListener {
+
+        /**
+         * When start button is clicked
+         * <p>
+         * initiates shrink timer, which accepts as input a valid integer
+         * which is used to calculate shrink time in seconds, starts drawTimer
+         * Gradually reduces balls size
+         * once shrink time reaches 0 the ball object is removed.
+         * </p>
+         *
+         * @param e {@code ActionEvent} triggered by clicking the Start button
+         */
+
         public void actionPerformed(ActionEvent e) {
             int shrinkSeconds;
 
@@ -115,8 +144,6 @@ public class Project4View {
                 JOptionPane.showMessageDialog(null, "Please enter a positive number");
                 return;
             }
-
-
 
             try {
                 ballArea.add(ball);
@@ -164,8 +191,22 @@ public class Project4View {
         }
     }
 
+    /**
+     * private inner class stopButtonHandler provides the action listener for the pause button
+     */
+
     class PauseResumeButtonHandler implements ActionListener {
         boolean paused = false;
+
+        /**
+         * Toggles the shrink and draw timers based on the current state.
+         * <p>
+         * Updates the button label to reflect the new state "Pause"/"Resume".
+         * </p>
+         *
+         * @param e the {@code ActionEvent} triggered by clicking the Pause/Resume button
+         */
+
         public void actionPerformed(ActionEvent e) {
             if (shrinkTimer.isRunning()){
                 drawTimer.stop();
@@ -181,7 +222,23 @@ public class Project4View {
         }
     }
 
+    /**
+     * private inner class resetButtonHandler provides the action listener for the reset button
+     */
+
     class resetButtonHandler implements ActionListener {
+
+        /**
+         * Handles the action event triggered by clicking the Reset button.             *
+         * <p>
+         * Reset button will stop both timers (shrink/ball)
+         * and will reset the ball to its original size, and random position
+         * by using {@code ball.fullReset()}
+         * button labels are also reset to their original values.
+         * </p>
+         * @param e the action event handled by this method
+         */
+
         public void actionPerformed(ActionEvent e) {
 
             if (drawTimer.isRunning()) drawTimer.stop();
@@ -198,7 +255,22 @@ public class Project4View {
         }
     }
 
+    /**
+     * private inner class TimerListener provides the action listener for the swing Timer
+     */
+
     class drawTimerListener implements ActionListener {
+
+        /**
+         * Called at each timer tick to update the ball's position and repaint the display.
+         * <p>
+         * if the boolean for bounceX or bounceY returns true then the respective dx/dy is multiplied by -1
+         * essentially reversing the direction.
+         * </p>
+         *
+         * @param e the action event handled by this method
+         */
+
         public void actionPerformed(ActionEvent e) {
 
             ball.moveBall(xVelocity, yVelocity);

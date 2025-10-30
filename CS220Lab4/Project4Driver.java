@@ -1,10 +1,8 @@
-
-
-/*
- * Driver for the SpaceShip example
- * creates a new instance of the SpaceShip class
+/**
+ * Driver for Lab Assignment 4: Swing Timer: Bouncing Ball Animation with Shrinking Functionality
+ * creates a new instance of View the GUI for the program.
  *
- * @author Chase
+ * @author Brian Mann, Michael, Aiden
  * @version 1.0
  */
 
