@@ -4,15 +4,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-/*
- * Graphical User Interface for the SpaceShip example
- * creates and loads the frame using the Ship class
- *
- * @author Chase
- * @version 1.0
- */
-
-
 public class Project4View {
 
     public static final int FRAMEHEIGHT = 700;
