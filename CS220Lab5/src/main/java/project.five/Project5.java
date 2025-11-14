@@ -17,6 +17,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Graphical User Interface for Lab Assignment 5: JavaFX Timeline: Moving Color-Changing Ball in JavaFX
+ * <p>
+ * This JavaFX application animates a color changing ball that moves horizontally across the screen.
+ * The ball reverses direction at window boundaries and changes color every 100 pixels.
+ * A slider controls the speed, and a button toggles play/pause.
+ * <p/>
+ *
+ *
+ *  @author Brian Mann, Aiden, Michael
+ *  @version 1.0
+ */
+
 public class Project5 extends Application {
 
     public static void main(String[] args) {
@@ -32,6 +45,13 @@ public class Project5 extends Application {
     private Button controlButton;
     private boolean paused = true;
     private Timeline movementLine;
+
+    /**
+     * Constructor for the Java FX application, and it's components(layout, controls, and animation timeline.).
+     *
+     * @param stage the primary stage for this application
+     * @throws Exception if any JavaFX component fails to initialize
+     */
 
     public void start(Stage stage) throws Exception {
         BorderPane base = new BorderPane();
@@ -78,6 +98,12 @@ public class Project5 extends Application {
 
     }
 
+    /**
+     * Move class handles all ball movement within the application window.
+     * Reverse ball direction with ball hits the window boundaries.
+     * Slider to control increase/decrease speed of ball.
+     * and will measure distance moved to control the color change of the ball set to 100 pixels.
+     */
     private void move(){
         if (ball.getLayoutX() <= 0+(ball.getRadius())) movingForward = true;
         if (ball.getLayoutX() >= scene.getWidth()-(ball.getRadius())) movingForward = false;
@@ -93,6 +119,11 @@ public class Project5 extends Application {
         }
     }
 
+    /**
+     * method to cycle the color change of the ball (fill color between red, yellow, and green).
+     * this method is called every 100 pixels of horizontal movement.
+     */
+
     private void changeColor(){
         timer = (timer + 1) % 3;
         switch (timer){
@@ -106,6 +137,10 @@ public class Project5 extends Application {
         }
     }
 
+    /**
+     * Set up the handling for the play pause button feature for application.
+     * buttons will cycle application between pause/play animation states.
+     */
     private void buttonControls(){
         if (paused){
             movementLine.play();
