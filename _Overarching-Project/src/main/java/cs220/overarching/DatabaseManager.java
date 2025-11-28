@@ -8,6 +8,12 @@ import java.util.Map;
 
 public class DatabaseManager {
 
+    /**
+     * Create a connection with our database.
+     *
+     * @return A connection to use for any processes
+     * @throws SQLException When we cant connect to the DB
+     */
     // Helpers
     protected Connection connectDB() throws SQLException {
         String url = "jdbc:mysql://127.0.0.1:3306/showdowndb";
@@ -15,6 +21,13 @@ public class DatabaseManager {
         String pass = "showdown42";
         return DriverManager.getConnection(url, user, pass);
     }
+
+    /**
+     * Deletes the data within a table
+     *
+     * @param table The name of the table we wish to truncate
+     * @throws SQLException If we cant connect to the DB
+     */
     public void truncateTable(String table) throws SQLException {
         try (Connection conn = connectDB()){
             Statement ps = conn.createStatement();
@@ -26,6 +39,17 @@ public class DatabaseManager {
             throw e;
         }
     }
+
+    /**
+     * Commits Player Data into the DB
+     *
+     * @param format The format we are inputting player Data for
+     * @param player The player object we are putting into the database
+     * @param conn Connection with the database
+     * @param insert The SQL Query we are using to insert the player
+     * @param history A Boolean telling us if were inputting player History or not
+     * @throws SQLException If we cant connect to the DB
+     */
     private void commitPlayer(String format, Player player, Connection conn, String insert, Boolean history) throws SQLException {
         if (history) {
             int playerId;
@@ -58,6 +82,12 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Inserts player data to be commited to the DB
+     *
+     * @param format What format we are inserting for
+     * @param player The player data we are inserting
+     */
     // Insertions
     public void insertPlayer(String format, Player player){
         try (Connection conn = connectDB()){
@@ -75,6 +105,12 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Inserts Player History to be commited
+     *
+     * @param format What format we are inserting for
+     * @param player The player data we are inserting
+     */
     public void insertHistory(String format, Player player){
         try (Connection conn = connectDB()){
             String insert = "INSERT INTO playerHistory(playerId, format, name, elo, gxe, glickoRating, glickoDev) VALUES (?, ?, ?, ?, ?, ?, ?) " +
@@ -90,6 +126,14 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Inserts all the top 500 players for a format tnto the DB
+     *
+     * @param format The format we are inserting into
+     * @param players All the players within the top 500 for that format
+     * @param conn Connection to the Database
+     * @throws SQLException If we cant connect to the Database
+     */
     public void insertAllTop500(String format, List<Player> players, Connection conn) throws SQLException {
         String deleteCmd = "DELETE FROM top500 WHERE format = ?";
         try (PreparedStatement psDelete = conn.prepareStatement(deleteCmd)) {
@@ -121,6 +165,12 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Inserts A single player into the top 500 for a format
+     *
+     * @param format The format we are inserting into
+     * @param player All the player within the top 500 for that format
+     */
     public void insertTop500(String format, Player player){
         try (Connection conn = connectDB()){
             conn.setAutoCommit(false);
@@ -151,6 +201,12 @@ public class DatabaseManager {
 
     // Query's
 
+    /**
+     * Grabs the top 500 players in each format we support and returns it in a map of format > Player
+     *
+     * @return A Map of formats to Lists of player objects created from the DB Data for that specific format
+     * @throws SQLException If we cannot grab the data from the DB
+     */
     protected Map<String, List<Player>> getAllTop500() throws SQLException {
         String[] formats = LadderSearcher.formats;
         Map<String, List<Player>> players = new HashMap<>();
@@ -182,6 +238,13 @@ public class DatabaseManager {
         return players;
     }
 
+    /**
+     * Grabs data from the DB to put into a list of Player Objects
+     *
+     * @param format The format we are grabbing data from
+     * @return A list of player objects regarding the top 500 in the format we inputted
+     * @throws SQLException If we cannot grab data from the DB
+     */
     protected List<Player> getFormatTop500(String format) throws SQLException {
         List<Player> players = new ArrayList<>();
         String query = "SELECT * FROM top500 WHERE format = ? ORDER BY rank LIMIT 500";
@@ -206,6 +269,12 @@ public class DatabaseManager {
         return players;
     }
 
+    /**
+     * Grabs data about One player and returns it in a format > player Data Map
+     *
+     * @param name The Players Name we are searching
+     * @return A map of player Data to formats (format > Player Data
+     */
     protected Map<String, Player> getAllPlayerData(String name){
         Map<String, Player> player = new HashMap<>();
         String query = "SELECT * FROM players WHERE name = ?";
@@ -233,6 +302,13 @@ public class DatabaseManager {
         return player;
     }
 
+    /**
+     * Grab the data for a Player for a specific format
+     *
+     * @param format Format we are grabbing data from
+     * @param name The player we are searching
+     * @return A Plyer object for the format we inputted
+     */
     protected Player getFormatPlayerData(String format, String name){
         Player player = null;
         String query = "SELECT * FROM players WHERE format = ? AND name = ?";
@@ -258,6 +334,13 @@ public class DatabaseManager {
         return player;
     }
 
+    /**
+     * Grabs Player Data for a format over all time
+     *
+     * @param format The format we want to get the history for
+     * @param name The player we are searching for
+     * @return A list of past Player data in a format for a player
+     */
     protected List<Player> getPlayerFormatHistory(String format, String name){ // Change this
         List<Player> history = new ArrayList<>();
         String query = "SELECT name, elo, gxe, glickoRating, glickoDev, timestamp  FROM playerHistory WHERE format = ? AND name = ? ORDER BY timestamp DESC";

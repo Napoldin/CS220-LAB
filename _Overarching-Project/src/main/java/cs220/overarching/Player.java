@@ -11,6 +11,17 @@ public class Player {
     private String coil = "--";
     private String timestamp = null;
 
+    /**
+     * Top 500 Constructor
+     *
+     * @param rank Player Rank
+     * @param name Player Name
+     * @param elo Player Elo
+     * @param gxe Player GXE
+     * @param glickoRating Player Glicko Rating
+     * @param glickoDeviation Player's Glicko Deviation
+     * @param coil Player's Coil
+     */
     public Player(int rank, String name, int elo, double gxe, int glickoRating, int glickoDeviation, String coil) {
         this.rank = rank;
         this.name = name;
@@ -21,6 +32,15 @@ public class Player {
         this.coil = coil;
     }
 
+    /**
+     * Singular Player data Constructor
+     *
+     * @param name Player Name
+     * @param elo Player Elo
+     * @param gxe Player GXE
+     * @param glickoRating Player Glicko Rating
+     * @param glickoDeviation Player's Glicko Deviation
+     */
     public Player(String name, int elo, double gxe, int glickoRating, int glickoDeviation) {
         this.name = name;
         this.elo = elo;
@@ -29,6 +49,16 @@ public class Player {
         this.glickoDeviation = glickoDeviation;
     }
 
+    /**
+     * Player History Constructor
+     *
+     * @param name Player Name
+     * @param elo Player Elo
+     * @param gxe Player GXE
+     * @param glickoRating Player Glicko Rating
+     * @param glickoDeviation Player's Glicko Deviation
+     * @param timestamp Time this player's data was checked
+     */
     public Player(String name, int elo, double gxe, int glickoRating, int glickoDeviation, String timestamp) {
         this.name = name;
         this.elo = elo;
@@ -38,6 +68,10 @@ public class Player {
         this.timestamp = timestamp;
     }
 
+
+    /**
+     * @return Player Stats
+     */
     public int getRank() { return rank; }
     public String getName() { return name; }
     public int getElo() { return elo; }
@@ -49,6 +83,9 @@ public class Player {
     public String getTimestamp() { return timestamp; }
 
 
+    /**
+     * @return String Representation of the player
+     */
     public String toString() {
         if (this.rank > 0){
             return String.format("Rank: %d Name: %s, Elo: %d, Gxe: %.2f%%, Glicko: %d±%d, Coil: %s",

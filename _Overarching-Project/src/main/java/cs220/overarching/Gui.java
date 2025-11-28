@@ -17,14 +17,29 @@ public class Gui {
     private final JPanel mainPanel;
     private final LadderSearcher ladder;
 
+    /**
+     * Show the Visuals
+     */
     // Helpers
     public void show(){
         frame.setVisible(true);
     }
+
+    /**
+     * Switches the displayed Page
+     *
+     * @param name name of the panel we're switching to
+     */
     private void switchPage(String name){
         layout.show(mainPanel, name);
     }
-    private void removeDupes(JPanel playerPanel, String panelName) {
+
+    /**
+     * Removes dupe pages as to not slow down the app or create issues in displaying data
+     *
+     * @param panelName The name of the panel we want to remove dupes from
+     */
+    private void removeDupes(String panelName) {
         for (Component comp : mainPanel.getComponents()) {
             if (panelName.equals(comp.getName())){
                 mainPanel.remove(comp);
@@ -33,6 +48,13 @@ public class Gui {
         }
     }
 
+    /**
+     * Helper function to make a title label, made as to reuse code
+     *
+     * @param title Title string to show
+     * @param panel the panel we're adding it to
+     * @param border Boolean to know if were adding a border or not
+     */
     private void createTitle(String title, JPanel panel, boolean border) {
         JLabel newTitle = new JLabel(title);
         newTitle.setFont(new Font("Arial", Font.BOLD, 20));
@@ -43,6 +65,13 @@ public class Gui {
         }
     }
 
+    /**
+     * Helper function to make a back panel as to reuse code
+     *
+     * @param text Text to show
+     * @param panel Panel to add it to
+     * @param backPanel Panel to redirect to
+     */
     private void createBackButton(String text, JPanel panel, String backPanel) {
         Font buttonFont = new Font("Arial", Font.BOLD, 14);
         JButton nextPageButton = new JButton(text);
@@ -53,6 +82,12 @@ public class Gui {
     }
 
 
+    /**
+     * Main function creating all the pages.
+     *
+     * @throws SQLException In case we cant grab or input data to the DB
+     * @throws IOException In case we cant grab data from the Website
+     */
     // On run Startup
     Gui() throws SQLException, IOException {
         ladder = new LadderSearcher();
@@ -85,6 +120,11 @@ public class Gui {
 
     // Panels
 
+    /**
+     * The Opening panel to let us in the app
+     *
+     * @return The welcome Panel
+     */
     private JPanel welcomePanel(){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -101,6 +141,11 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * The Panel that leads to others, a connector
+     *
+     * @return The first Hub panel
+     */
     private JPanel hubPanel1(){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -132,6 +177,11 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Second connector
+     *
+     * @return 2nd Hub panel
+     */
     private JPanel hubPanel2(){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -142,6 +192,11 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * The panel we use to choose which top 500 to display
+     *
+     * @return Choose top 500 page panel
+     */
     // Button Pages
     private JPanel chooseTop500FormatPage(){
         JPanel panel = new JPanel(new BorderLayout());
@@ -163,6 +218,13 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Shows the Data for a format's top 500 players
+     *
+     * @param format Format we want to display
+     * @return Panel showing the data for a format in the top 500
+     * @throws SQLException if we cant connect to the DB
+     */
     private JPanel top500Panel(String format) throws SQLException {
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -190,6 +252,11 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Page to reload our data in the DB
+     *
+     * @return Panel for the reload page
+     */
     private JPanel reloadFormatPage(){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -227,6 +294,11 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Where we search for players in Pokemon Showdown to show their Data
+     *
+     * @return panel to search players
+     */
     private JPanel searchPlayersPage(){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -248,7 +320,7 @@ public class Gui {
                 }
                 JPanel playerPanel = playerFoundPage(player);
                 String panelName = "player-" + name;
-                removeDupes(playerPanel, panelName);
+                removeDupes(panelName);
                 playerPanel.setName(panelName);
                 mainPanel.add(playerPanel, panelName);
                 switchPage(panelName);
@@ -267,6 +339,12 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Displays player Data in a table
+     *
+     * @param playerMap A map of a player's data (format > Player Data)
+     * @return Jpanel of player found page
+     */
     private JPanel playerFoundPage(Map<String, Player> playerMap){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -296,6 +374,11 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * We use this page as to search for recorded history for players
+     *
+     * @return Player History search page
+     */
     private JPanel playerHistorySearchPage(){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -326,7 +409,7 @@ public class Gui {
             }
             JPanel playerPanel = choosePlayerFormatsPage(player);
             String panelName = "player-" + name + "-Formats";
-            removeDupes(playerPanel, panelName);
+            removeDupes(panelName);
             playerPanel.setName(panelName);
             mainPanel.add(playerPanel, panelName);
             switchPage(panelName);
@@ -339,6 +422,12 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Page to choose what format we want to show
+     *
+     * @param playerMap Player map of their history (Format > Player History)
+     * @return Panel of the page
+     */
     private JPanel choosePlayerFormatsPage(Map<String, Player> playerMap){
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -356,7 +445,7 @@ public class Gui {
                 List<Player> playerHistory = ladder.getPlayerFormatHistory(format, player.getName());
                 JPanel playerPanel = playerHistoryPage(playerHistory);
                 String panelName = "player-" + player + " History";
-                removeDupes(playerPanel, panelName);
+                removeDupes(panelName);
                 playerPanel.setName(panelName);
                 mainPanel.add(playerPanel, panelName);
                 switchPage(panelName);
@@ -370,6 +459,12 @@ public class Gui {
         return panel;
     }
 
+    /**
+     * Page to display Player History for a specific format.
+     *
+     * @param playerHistory A List of player history for a format
+     * @return Page panel
+     */
     private JPanel playerHistoryPage(List<Player> playerHistory){
         JPanel panel = new JPanel(new BorderLayout());
 
